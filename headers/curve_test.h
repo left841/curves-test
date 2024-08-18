@@ -15,6 +15,8 @@
 
 namespace crv
 {
+    const double pi = 3.14159265358979323846;
+
     class DYN_POLICY point_3d
     {
     private:
@@ -35,6 +37,7 @@ namespace crv
         void set_z(double value);
 
         point_3d operator+(const point_3d& other) const;
+        bool operator<(const point_3d& other) const;
     };
 
     DYN_POLICY std::ostream& operator<<(std::ostream& out, const point_3d& point);
@@ -64,6 +67,8 @@ namespace crv
     class DYN_POLICY curve
     {
     public:
+        virtual ~curve() = default;
+
         virtual point_3d get_point(double t) const = 0;
         virtual point_3d get_first_derivative(double t) const = 0;
         virtual vector_3d get_derivative_vector(double t) const = 0;

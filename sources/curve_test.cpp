@@ -3,8 +3,6 @@
 
 namespace crv
 {
-    constexpr const double pi = 3.14159265358979323846;
-
     point_3d::point_3d(double _x, double _y, double _z) : x(_x), y(_y), z(_z)
     {
     }
@@ -42,6 +40,15 @@ namespace crv
     point_3d point_3d::operator+(const point_3d& other) const
     {
         return point_3d{ x + other.x, y + other.y, z + other.z };
+    }
+
+    bool point_3d::operator<(const point_3d& other) const
+    {
+        if (x != other.x)
+            return x < other.x;
+        if (y != other.y)
+            return y < other.y;
+        return z < other.z;
     }
 
     std::ostream& operator<<(std::ostream& out, const point_3d& point)
