@@ -48,7 +48,7 @@ int main(int argc, char** argv)
     std::uniform_int_distribution<int> distr_for_type(0, 2);
 
     std::vector<std::shared_ptr<crv::curve>> vec;
-    std::vector<std::shared_ptr<crv::curve>> circle_vec;
+    std::vector<std::shared_ptr<crv::circle>> circle_vec;
 
     // populating a vector with random parameters
     for (size_t i = 0; i < max_vec_size; ++i)
@@ -60,14 +60,14 @@ int main(int argc, char** argv)
         switch (next_type)
         {
         case 0: // circle
-            vec.push_back(std::make_shared<crv::circle>(centre_point, distr_positive(gen_mt)));
-            circle_vec.push_back(vec.back());
+            vec.push_back(std::move(std::make_shared<crv::circle>(centre_point, distr_positive(gen_mt))));
+            circle_vec.push_back(std::move(std::dynamic_pointer_cast<crv::circle>(vec.back())));
             break;
         case 1: // ellipse
-            vec.push_back(std::make_shared<crv::ellipse>(centre_point, distr_positive(gen_mt), distr_positive(gen_mt)));
+            vec.push_back(std::move(std::make_shared<crv::ellipse>(centre_point, distr_positive(gen_mt), distr_positive(gen_mt))));
             break;
         case 2: // helix
-            vec.push_back(std::make_shared<crv::helix>(centre_point, distr_positive(gen_mt), distr_positive(gen_mt)));
+            vec.push_back(std::move(std::make_shared<crv::helix>(centre_point, distr_positive(gen_mt), distr_positive(gen_mt))));
             break;
         }
     }
@@ -84,19 +84,16 @@ int main(int argc, char** argv)
 
     // sorting circles' container by radii
     std::sort(circle_vec.begin(), circle_vec.end(),
-        [](const std::shared_ptr<crv::curve>& a, const std::shared_ptr<crv::curve>& b)->bool
+        [](const std::shared_ptr<crv::circle>& a, const std::shared_ptr<crv::circle>& b)->bool
         {
-            const crv::circle* a_ptr = dynamic_cast<const crv::circle*>(a.get());
-            const crv::circle* b_ptr = dynamic_cast<const crv::circle*>(b.get());
-
-            if (a_ptr->get_radius() != b_ptr->get_radius())
-                return a_ptr->get_radius() < b_ptr->get_radius();
-            return a_ptr->get_centre() < b_ptr->get_centre();
+            if (a->get_radius() != b->get_radius())
+                return a->get_radius() < b->get_radius();
+            return a->get_centre() < b->get_centre();
         });
 
     std::cout << "list of circles\' radii after sorting:\n";
     for (const auto& i: circle_vec)
-        std::cout << dynamic_cast<const crv::circle*>(i.get())->get_radius() << ' ';
+        std::cout << i->get_radius() << ' ';
     std::cout << std::endl;
 
     if (number_of_threads > 0)
@@ -109,7 +106,7 @@ int main(int argc, char** argv)
     #pragma omp parallel for shared(circle_vec) reduction(+: sum_of_radii)
     for (ptrdiff_t i = 0; i < circle_vec_size; ++i)
     {
-        sum_of_radii += dynamic_cast<const crv::circle*>(circle_vec[i].get())->get_radius();
+        sum_of_radii += circle_vec[i]->get_radius();
     }
 
     std::cout << "sum of circles\' radii: " << sum_of_radii << std::endl;
