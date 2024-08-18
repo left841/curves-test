@@ -16,8 +16,6 @@ find_package(OpenMP REQUIRED)
 if(NOT OpenMP_CXX_FOUND)
     message(FATAL_ERROR "openmp not found")
 endif(NOT OpenMP_CXX_FOUND)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS})
-
 
 set(CURVE_LIB "${CMAKE_CURRENT_SOURCE_DIR}/sources/curve_test.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/headers/curve_test.h")
 
