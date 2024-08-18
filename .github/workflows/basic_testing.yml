@@ -19,6 +19,11 @@ jobs:
                   cd build
                   cmake --build .
 
+            - name: Running sample
+              run: |
+                  cd build/bin
+                  ./sample -s 10 -t 2
+
     macos_test:
         runs-on: macos-latest
         steps:
@@ -40,6 +45,11 @@ jobs:
                   cd build
                   cmake --build .
 
+            - name: Running sample
+              run: |
+                  cd build/bin
+                  ./sample -s 10 -t 2
+
     windows_test:
         runs-on: windows-latest
         steps:
@@ -55,4 +65,9 @@ jobs:
               run: |
                   cd build
                   cmake --build .
+
+            - name: Running sample
+              run: |
+                  cd build\bin
+                  sample.exe -s 10 -t 2
 
