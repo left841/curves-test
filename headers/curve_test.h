@@ -26,6 +26,8 @@ namespace crv
         point_3d() = default;
         point_3d(const point_3d& src) = default;
         point_3d& operator=(const point_3d& src) = default;
+        point_3d(point_3d&& src) noexcept = default;
+        point_3d& operator=(point_3d&& src) noexcept = default;
         ~point_3d() = default;
         point_3d(double _x, double _y, double _z);
 
@@ -51,6 +53,8 @@ namespace crv
         vector_3d() = default;
         vector_3d(const vector_3d& src) = default;
         vector_3d& operator=(const vector_3d& src) = default;
+        vector_3d(vector_3d&& src) noexcept = default;
+        vector_3d& operator=(vector_3d&& src) noexcept = default;
         ~vector_3d() = default;
         vector_3d(const point_3d& _initial, const point_3d& _terminal);
 
@@ -84,6 +88,8 @@ namespace crv
         circle() = default;
         circle(const circle& src) = default;
         circle& operator=(const circle& src) = default;
+        circle(circle&& src) noexcept = default;
+        circle& operator=(circle&& src) noexcept = default;
         ~circle() = default;
         explicit circle(double _radius);
         circle(const point_3d& _centre, double _radius);
@@ -108,6 +114,8 @@ namespace crv
         ellipse() = default;
         ellipse(const ellipse& src) = default;
         ellipse& operator=(const ellipse& src) = default;
+        ellipse(ellipse&& src) noexcept = default;
+        ellipse& operator=(ellipse&& src) noexcept = default;
         ~ellipse() = default;
         ellipse(double _radius_x, double _radius_y);
         ellipse(const point_3d& _centre, double _radius_x, double _radius_y);
@@ -134,6 +142,8 @@ namespace crv
         helix() = default;
         helix(const helix& src) = default;
         helix& operator=(const helix& src) = default;
+        helix(helix&& src) noexcept = default;
+        helix& operator=(helix&& src) noexcept = default;
         ~helix() = default;
         helix(double _radius, double _step);
         helix(const point_3d& _centre, double _radius, double _step);

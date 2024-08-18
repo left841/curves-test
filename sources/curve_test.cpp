@@ -3,7 +3,7 @@
 
 namespace crv
 {
-    point_3d::point_3d(double _x, double _y, double _z) : x(_x), y(_y), z(_z)
+    point_3d::point_3d(double _x, double _y, double _z): x(_x), y(_y), z(_z)
     {
     }
 
@@ -56,7 +56,7 @@ namespace crv
         return out << '{' << point.get_x() << ',' << point.get_y() << ',' << point.get_z() << '}';
     }
 
-    vector_3d::vector_3d(const point_3d& _initial, const point_3d& _terminal) : initial(_initial), terminal(_terminal)
+    vector_3d::vector_3d(const point_3d& _initial, const point_3d& _terminal): initial(_initial), terminal(_terminal)
     {
     }
 
