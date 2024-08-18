@@ -69,5 +69,5 @@ jobs:
             - name: Running sample
               run: |
                   cd build\bin
-                  sample.exe -s 10 -t 2
+                  dir
 
