@@ -1,0 +1,53 @@
+name: basic testing
+
+on: [push, pull_request]
+
+jobs:
+    linux_test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Configuring CMake
+              run: |
+                  mkdir ./build
+                  cd build
+                  cmake ..
+            
+            - name: Building
+              run: |
+                  cd build
+                  cmake --build .
+
+    macos_test:
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Configuring CMake
+              run: |
+                  mkdir ./build
+                  cd build
+                  cmake ..
+            
+            - name: Building
+              run: |
+                  cd build
+                  cmake --build .
+
+    windows_test:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Configuring CMake
+              run: |
+                  mkdir build
+                  cd build
+                  cmake ..
+            
+            - name: Building
+              run: |
+                  cd build
+                  cmake --build .
+
