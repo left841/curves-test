@@ -8,6 +8,7 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include <limits>
 #include "omp.h"
 #include "curve_test.h"
 
@@ -43,7 +44,7 @@ int main(int argc, char** argv)
 
     std::mt19937_64 gen_mt(std::time(nullptr));
     std::uniform_real_distribution<double> distr_ur(min_distr_value, max_distr_value);
-    std::uniform_real_distribution<double> distr_positive(0, max_positive);
+    std::uniform_real_distribution<double> distr_positive(std::numeric_limits<double>::min(), max_positive);
     std::uniform_int_distribution<int> distr_for_type(0, 2);
 
     std::vector<std::shared_ptr<crv::curve>> vec;
