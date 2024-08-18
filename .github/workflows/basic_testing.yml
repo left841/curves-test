@@ -24,6 +24,10 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
+            - name: Installing OpenMP
+              run: |
+                  brew install libomp
+
             - name: Configuring CMake
               run: |
                   mkdir ./build
