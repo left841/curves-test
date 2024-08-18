@@ -27,13 +27,12 @@ jobs:
             - name: Installing OpenMP
               run: |
                   brew install libomp
-                  export LDFLAGS="-L/opt/homebrew/opt/libomp/lib"
-                  export CPPFLAGS="-I/opt/homebrew/opt/libomp/include"
 
             - name: Configuring CMake
               run: |
                   mkdir ./build
                   cd build
+                  export OpenMP_ROOT=$(brew --prefix)/opt/libomp
                   cmake ..
             
             - name: Building
