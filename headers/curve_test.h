@@ -85,7 +85,7 @@ namespace crv
         circle(const circle& src) = default;
         circle& operator=(const circle& src) = default;
         ~circle() = default;
-        circle(double _radius);
+        explicit circle(double _radius);
         circle(const point_3d& _centre, double _radius);
 
         point_3d get_point(double t) const override;
