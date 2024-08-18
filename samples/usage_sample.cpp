@@ -49,6 +49,7 @@ int main(int argc, char** argv)
     std::vector<std::shared_ptr<crv::curve>> vec;
     std::vector<std::shared_ptr<crv::curve>> circle_vec;
 
+    // populating a vector with random parameters
     for (size_t i = 0; i < max_vec_size; ++i)
     {
         int next_type = distr_for_type(gen_mt);
@@ -70,13 +71,17 @@ int main(int argc, char** argv)
         }
     }
 
-    for (const auto& i : vec)
+    // printing points and derivatives at t = pi / 4
+    std::cout << "list of point coordinates for t = pi / 4:\n";
+    for (const auto& i: vec)
         std::cout << i->get_point(crv::pi / 4) << ' ';
     std::cout << std::endl;
-    for (const auto& i : vec)
+    std::cout << "list of first derivatives for t = pi / 4:\n";
+    for (const auto& i: vec)
         std::cout << i->get_first_derivative(crv::pi / 4) << ' ';
     std::cout << std::endl;
 
+    // sorting circles' container by radii
     std::sort(circle_vec.begin(), circle_vec.end(),
         [](const std::shared_ptr<crv::curve>& a, const std::shared_ptr<crv::curve>& b)->bool
         {
@@ -88,7 +93,7 @@ int main(int argc, char** argv)
             return a_ptr->get_centre() < b_ptr->get_centre();
         });
 
-    std::cout << std::endl;
+    std::cout << "list of circles\' radii after sorting:\n";
     for (const auto& i: circle_vec)
         std::cout << dynamic_cast<const crv::circle*>(i.get())->get_radius() << ' ';
     std::cout << std::endl;
@@ -96,6 +101,7 @@ int main(int argc, char** argv)
     if (number_of_threads > 0)
         omp_set_num_threads(number_of_threads);
 
+    // computing the total sum of radii
     double sum_of_radii = 0.0;
     ptrdiff_t circle_vec_size = circle_vec.size();
 
@@ -105,7 +111,7 @@ int main(int argc, char** argv)
         sum_of_radii += dynamic_cast<const crv::circle*>(circle_vec[i].get())->get_radius();
     }
 
-    std::cout << sum_of_radii << std::endl;
+    std::cout << "sum of circles\' radii: " << sum_of_radii << std::endl;
 
     return 0;
 }
