@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstddef>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
@@ -7,30 +8,36 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include "omp.h"
 #include "curve_test.h"
 
 int main(int argc, char** argv)
 {
     size_t max_vec_size = 100;
     double min_distr_value = -100.0, max_distr_value = 100.0, max_positive = 100.0;
+    int number_of_threads = 0;
 
     for (int i = 0; i < argc; ++i)
     {
-        if (std::strstr(argv[i], "-s") != nullptr)
+        if (std::strcmp(argv[i], "-s") == 0)
         {
             max_vec_size = std::atoll(argv[++i]);
         }
-        else if (std::strstr(argv[i], "-min_d") != nullptr)
+        else if (std::strcmp(argv[i], "-min_d") == 0)
         {
             min_distr_value = std::atof(argv[++i]);
         }
-        else if (std::strstr(argv[i], "-max_d") != nullptr)
+        else if (std::strcmp(argv[i], "-max_d") == 0)
         {
             max_distr_value = std::atof(argv[++i]);
         }
-        else if (std::strstr(argv[i], "-max_p") != nullptr)
+        else if (std::strcmp(argv[i], "-max_p") == 0)
         {
             max_positive = std::atof(argv[++i]);
+        }
+        else if (std::strcmp(argv[i], "-t") == 0)
+        {
+            number_of_threads = std::atoi(argv[++i]);
         }
     }
 
@@ -86,9 +93,17 @@ int main(int argc, char** argv)
         std::cout << dynamic_cast<const crv::circle*>(i.get())->get_radius() << ' ';
     std::cout << std::endl;
 
+    if (number_of_threads > 0)
+        omp_set_num_threads(number_of_threads);
+
     double sum_of_radii = 0.0;
-    for (const auto& i : circle_vec)
-        sum_of_radii += dynamic_cast<const crv::circle*>(i.get())->get_radius();
+    ptrdiff_t circle_vec_size = circle_vec.size();
+
+    #pragma omp parallel for shared(circle_vec) reduction(+: sum_of_radii)
+    for (ptrdiff_t i = 0; i < circle_vec_size; ++i)
+    {
+        sum_of_radii += dynamic_cast<const crv::circle*>(circle_vec[i].get())->get_radius();
+    }
 
     std::cout << sum_of_radii << std::endl;
 
