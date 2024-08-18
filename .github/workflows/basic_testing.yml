@@ -27,6 +27,7 @@ jobs:
             - name: Installing OpenMP
               run: |
                   brew install libomp
+                  export OpenMP_ROOT=$(brew --prefix)/opt/libomp
 
             - name: Configuring CMake
               run: |
