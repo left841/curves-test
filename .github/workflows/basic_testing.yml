@@ -24,6 +24,11 @@ jobs:
                   cd build/bin
                   ./sample -s 10 -t 2
 
+            - name: Running tests
+              run: |
+                  cd build
+                  ctest --output-on-failure
+
     macos_test:
         runs-on: macos-latest
         steps:
@@ -50,6 +55,11 @@ jobs:
                   cd build/bin
                   ./sample -s 10 -t 2
 
+            - name: Running tests
+              run: |
+                  cd build
+                  ctest --output-on-failure
+
     windows_test:
         runs-on: windows-latest
         steps:
@@ -70,4 +80,9 @@ jobs:
               run: |
                   cd build\bin
                   .\sample -s 10 -t 2
+
+            - name: Running tests
+              run: |
+                  cd build
+                  ctest -C Debug --output-on-failure
 
